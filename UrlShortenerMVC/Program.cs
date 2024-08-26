@@ -10,9 +10,12 @@ namespace UrlShortenerMVC
         {
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddDbContext<AppDbContext>(options => 
+                options.UseSqlServer(builder.Configuration.GetConnectionString("UrlShortenerDB")));
+
             builder.Services.AddDbContext<AppIdentityDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityDB")));
-            builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppIdentityDbContext>(); ;
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppIdentityDbContext>(); 
 
             builder.Services.AddControllersWithViews();
 
