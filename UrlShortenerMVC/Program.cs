@@ -15,18 +15,14 @@ namespace UrlShortenerMVC
 
             builder.Services.AddDbContext<AppIdentityDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityDB")));
-            builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppIdentityDbContext>(); 
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+                options.User.RequireUniqueEmail = true)
+                .AddEntityFrameworkStores<AppIdentityDbContext>(); 
 
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
 
-
-            if (!app.Environment.IsDevelopment())
-            {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
-            }
 
 
             app.UseHttpsRedirection();
