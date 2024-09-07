@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Diagnostics;
 using UrlShortenerMVC.Models;
 
@@ -15,18 +16,14 @@ namespace UrlShortenerMVC.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            if(User.Identity?.IsAuthenticated == true)
+            {
+                return RedirectToAction("Index", "Account");
+            }
+
+            return RedirectToAction("Create", "Url");
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        
     }
 }
