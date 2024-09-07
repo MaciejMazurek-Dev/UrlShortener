@@ -1,0 +1,12 @@
+﻿@model LoginModel
+
+<div class="justify-content-center ">
+    <h3>Register new account</h3>
+    <form method="POST" asp-controller="Account" asp-action="Login">
+        <label class="form-label">Email:</label>
+        <input class="form-control" type="email" asp-for="@Model.Email" />
+        <label class="form-label">Password:</label>
+        <input class="form-control" type="password" asp-for="@Model.Password" />
+        <button class="btn btn-primary" type="submit">Login</button>
+    </form>
+</div>

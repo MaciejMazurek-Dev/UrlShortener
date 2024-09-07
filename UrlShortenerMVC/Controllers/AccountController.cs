@@ -36,14 +36,14 @@ namespace UrlShortenerMVC.Controllers
             {
                 IdentityUser user = new IdentityUser { UserName = registerModel.Email, Email = registerModel.Email };
                 IdentityResult result = await _userManager.CreateAsync(user, registerModel.Password);
-                if(result.Succeeded)
+                if (result.Succeeded)
                 {
-                    _logger.LogInformation("New user account created");
+                    _logger.LogInformation("New user account created.");
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index");
                 }
-                foreach(IdentityError error in result.Errors)
+                foreach (IdentityError error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
@@ -52,6 +52,45 @@ namespace UrlShortenerMVC.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
 
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginModel loginModel)
+        {
+            if (ModelState.IsValid)
+            {
+                Microsoft.AspNetCore.Identity.SignInResult result =
+                    await _signInManager.PasswordSignInAsync(
+                    loginModel.Email,
+                    loginModel.Password,
+                    isPersistent: false,
+                    lockoutOnFailure: false);
+
+                if(result.Succeeded)
+                {
+                    _logger.LogInformation($"User: {loginModel.Email} logged in.");
+                    return RedirectToAction("Index");
+                }else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid email or password.");
+                    return View(loginModel);
+                }
+            }
+            return View();
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            string? userName = User.Identity?.Name;
+            await _signInManager.SignOutAsync();
+            _logger.LogInformation($"User: {userName} logged out.");
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
