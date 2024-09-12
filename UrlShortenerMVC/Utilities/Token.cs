@@ -1,4 +1,6 @@
-﻿namespace UrlShortenerMVC.Utilities
+﻿using System.Reflection.Metadata.Ecma335;
+
+namespace UrlShortenerMVC.Utilities
 {
     public class Token
     {
@@ -29,6 +31,20 @@
                 index++;
             }
             return result;
+        }
+
+        public int TokenToIndex(string token)
+        {
+            int tokenLength = token.Length;
+            double result = 0;
+            int charPos = tokenLength - 1;
+
+            for (int charIndex = 0; charIndex < tokenLength; charIndex++)
+            {
+                result += Math.Pow(characterSetLength, charPos) * Array.IndexOf(characterSet, token[charIndex]);
+                charPos--;
+            }
+            return (int)result;
         }
     }
 }

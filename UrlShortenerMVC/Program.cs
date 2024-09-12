@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using UrlShortenerMVC.Data;
 
+
 namespace UrlShortenerMVC
 {
     public class Program
@@ -10,7 +11,7 @@ namespace UrlShortenerMVC
         {
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddDbContext<AppDbContext>(options => 
+            builder.Services.AddDbContext<IAppDbContext, AppDbContext>(options => 
                 options.UseSqlServer(builder.Configuration.GetConnectionString("UrlShortenerDB")));
 
             builder.Services.AddDbContext<AppIdentityDbContext>(options =>
@@ -23,8 +24,8 @@ namespace UrlShortenerMVC
 
             var app = builder.Build();
 
-
-
+            
+            
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
