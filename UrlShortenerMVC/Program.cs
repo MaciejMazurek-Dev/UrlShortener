@@ -11,7 +11,7 @@ namespace UrlShortenerMVC
         {
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddDbContext<IAppDbContext, AppDbContext>(options => 
+            builder.Services.AddDbContext<AppDbContext>(options => 
                 options.UseSqlServer(builder.Configuration.GetConnectionString("UrlShortenerDB")));
 
             builder.Services.AddDbContext<AppIdentityDbContext>(options =>

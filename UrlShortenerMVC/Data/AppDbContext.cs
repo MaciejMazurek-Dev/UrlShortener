@@ -3,7 +3,7 @@ using UrlShortenerMVC.Models;
 
 namespace UrlShortenerMVC.Data
 {
-    public class AppDbContext : DbContext, IAppDbContext
+    public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) :
             base(options)
@@ -11,7 +11,7 @@ namespace UrlShortenerMVC.Data
         }
 
         public DbSet<ShortenedUrlModel> ShortenedUrl { get; set; }
-        public DbSet<TokenModel> TokenModel { get; set; }
+        public DbSet<TokenModel> Tokens { get; set; }
 
 
 
